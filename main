@@ -1,0 +1,59 @@
+import java.io.*;
+import java.math.BigInteger;
+import java.util.*;
+
+public class TaskB4 {
+    public static void main(String[] args)  {
+
+        Map<String, Integer> map = new TreeMap<>();
+        File f = new File("D:/task_B4.txt");
+        List<String> array = new ArrayList<>();
+
+        BufferedReader fin = null;
+        try {
+            fin = new BufferedReader(new FileReader(f));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        String line;
+        try {
+            while ((line = fin != null ? fin.readLine() : null) != null) {
+                array.add(line);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (fin != null) {
+                fin.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 1; i < array.size(); i++) {
+            String[] str = array.get(i).split("\t");
+            for (String aStr : str) {
+                str[0] = str[0].replaceAll("\\[|\\]", "");
+                str[0] = str[0].replaceAll("\\d", "");
+                str[1] = str[1].replaceAll(",", "");
+
+                Integer integer = Integer.parseInt(str[1]); 
+                BigInteger bigInteger = BigInteger.valueOf(integer);
+                boolean probablePrime = bigInteger.isProbablePrime((int) Math.log(integer));
+                if(probablePrime){
+                    map.put(str[0], Integer.parseInt(str[1])); }
+
+            }
+        }
+
+
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+
+            System.out.println("Country: " + entry.getKey() + " GPD: "
+                    + entry.getValue());
+        }
+    }
+}
+
